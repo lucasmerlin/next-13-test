@@ -2,6 +2,7 @@ import {graphql} from "../../lib/gql";
 import {Client} from "@urql/core";
 import { use } from "react";
 import Image from "next/image";
+import {Like} from "./like";
 
 const client = new Client({
   url: "https://hellopaint.io/api/gateway/graphql",
@@ -14,6 +15,7 @@ const galleryQuery = graphql(/* GraphQL */`
           id
           title
           imageUrl
+          description
       }
   }
 `)
@@ -42,6 +44,14 @@ export default function Home() {
             <div className="card-body">
               <div className="card-title">
                 {post.title}
+              </div>
+
+              <div className="truncate">
+                {post.description}
+              </div>
+
+              <div className="card-actions">
+                <Like/>
               </div>
             </div>
           </div>)))}
