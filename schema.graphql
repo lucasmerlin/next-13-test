@@ -1,0 +1,467 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Badge {
+    description: String
+    id: ID!
+    image: String
+    key: String!
+    title: String!
+}
+
+type Board {
+    activeMembersCount: Int!
+    backgroundType: Background!
+    collaborationMode: CollaborationMode!
+    color: String
+    description: String!
+    galleryPosts(query: GalleryQuery): [GalleryPost!]!
+    id: ID!
+    members(cursor: CursorInput): BoardMembershipConnection!
+    membersCount: Int!
+    membership: BoardMembership!
+    mode: BoardMode!
+    objectIds: [String!]
+    objects: [Object!]!
+    owner: User
+    roles: JSONObject!
+    rules: [String!]
+    tileHeight: Int!
+    tileWidth: Int!
+    title: String!
+    type: BoardType!
+    url: String!
+    userMembership(uid: ID!): BoardMembership!
+}
+
+type BoardActivity {
+    board: Board!
+    boardId: String!
+    position: Position!
+    user: User!
+    userId: String!
+}
+
+type BoardConnection {
+    "A list of edges."
+    edges: [BoardEdge!]!
+    "A list of nodes."
+    nodes: [Board!]!
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type BoardEdge {
+    "A cursor for use in pagination"
+    cursor: String!
+    "The item at the end of the edge"
+    node: Board!
+}
+
+type BoardMembership {
+    board: Board!
+    boardId: ID!
+    createdAt: DateTime!
+    id: ID!
+    invitedBy: User
+    invitedByUid: ID
+    roles: [String!]!
+    updatedAt: DateTime!
+    user: User!
+    userId: ID!
+}
+
+type BoardMembershipConnection {
+    "A list of edges."
+    edges: [BoardMembershipEdge!]!
+    "A list of nodes."
+    nodes: [BoardMembership!]!
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type BoardMembershipEdge {
+    "A cursor for use in pagination"
+    cursor: String!
+    "The item at the end of the edge"
+    node: BoardMembership!
+}
+
+type Contribution {
+    galleryPost: GalleryPost!
+    imageUrl: String
+    strokes: Int
+    user: User!
+}
+
+type DeleteUserLinesResult {
+    deletedLinesCount: Int!
+}
+
+type GalleryHpPosition {
+    height: Float!
+    rotation: Float!
+    width: Float!
+    x: Float!
+    y: Float!
+    zoom: Float!
+}
+
+type GalleryPosition {
+    h: Float!
+    w: Float!
+    x: Float!
+    y: Float!
+}
+
+type GalleryPost {
+    app: App!
+    board: Board
+    contributions: [Contribution!]
+    createdAt: Date!
+    description: String
+    downvotes: Int!
+    drawing: String!
+    height: Int!
+    hotness: Float!
+    hpPosition: GalleryHpPosition
+    id: ID!
+    imageUrl: String
+    position: GalleryPosition
+    score: Float!
+    tags: [String]
+    title: String!
+    upvotes: Int!
+    user: User
+    voteDirection: Int!
+    width: Int!
+}
+
+type IScribbleCategory {
+    id: Int!
+    name: String!
+    posts(query: IScribbleGalleryQuery): [IScribbleGalleryPost]
+    slug: String!
+}
+
+type IScribbleCollaborator {
+    strokes: Int
+    user: IScribbleUser
+    userId: Int
+}
+
+type IScribbleGalleryPost {
+    category: IScribbleCategory
+    categoryId: Int!
+    collaborators: [IScribbleCollaborator]
+    createdAt: Date!
+    description: String
+    id: Int!
+    imageUrl: String
+    score: Float!
+    title: String!
+}
+
+type IScribbleUser {
+    bio: String!
+    createdAt: Date!
+    posts(query: IScribbleGalleryQuery): [IScribbleGalleryPost]
+    userId: Int!
+    userName: String!
+}
+
+type ModLog {
+    createdAt: Date!
+    description: String
+    id: ID!
+    relatedBoard: Board
+    relatedPost: GalleryPost
+    relatedUser: User
+    type: ModLogType!
+    url: String
+    user: User!
+}
+
+type ModLogConnection {
+    edges: [ModLogNode!]!
+    pageInfo: PageInfo!
+}
+
+type ModLogNode {
+    cursor: ID!
+    node: ModLog!
+}
+
+type Mutation {
+    banUser(reason: String, userId: ID!): User
+    banUserFromBoard(boardId: ID!, userId: ID!): BoardMembership!
+    createBoard(canvas: CreateCanvasInput, input: CreateBoardInput!): Board!
+    deleteGalleryPost(postId: ID!): GalleryPost
+    deleteUsersLines(boardId: ID, userId: ID!): DeleteUserLinesResult!
+    editBoard(boardId: ID!, input: EditBoardInput!): Board!
+    gallerySubmit(post: GalleryPostInput!): GalleryPost
+    galleryVote(direction: Int!, postId: ID!): GalleryPost
+    hideContribution(postId: ID!): GalleryPost
+    inviteUsersToBoard(boardId: ID!, userIds: [ID!]!): [BoardMembership!]!
+    joinBoard(boardId: ID!): BoardMembership!
+    kickUserFromBoard(boardId: ID!, userId: ID!): BoardMembership!
+    leaveBoard(boardId: ID!): BoardMembership!
+    newModLog(input: ModLogInput!): ModLog
+    updateBoardMembership(boardId: ID!, input: UpdateBoardMembershipInput!, userId: ID!): BoardMembership!
+}
+
+type Object {
+    height: Int!
+    matrix: [Float!]
+    type: String!
+    width: Int!
+}
+
+"Information about pagination in a connection"
+type PageInfo {
+    "When paginating forwards, the cursor to continue."
+    endCursor: String
+    "When paginating forwards, are there more items?"
+    hasNextPage: Boolean!
+    "When paginating backwards, are there more items?"
+    hasPreviousPage: Boolean!
+    "When paginating backwards, the cursor to continue."
+    startCursor: String
+}
+
+type PaginationInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    limit: Int!
+    page: Int!
+    total: Int!
+    totalPages: Int!
+}
+
+type Position {
+    rotation: Float
+    x: Float!
+    y: Float!
+    zoom: Float
+}
+
+type Query {
+    activeBoards: [Board!]!
+    activity(boardId: String, userId: String): [BoardActivity!]!
+    board(id: ID!): Board!
+    boardByUrl(url: String!): Board!
+    boards(cursor: CursorInput): BoardConnection!
+    galleryPost(id: ID): GalleryPost
+    galleryPosts(query: GalleryQuery): [GalleryPost!]!
+    iScribbleCategories: [IScribbleCategory]
+    iScribbleCategory(slug: String!): IScribbleCategory
+    iScribbleGalleryPost(id: Int!): IScribbleGalleryPost
+    iScribbleGalleryPosts(query: IScribbleGalleryQuery): [IScribbleGalleryPost]
+    iScribbleUser(userName: String!): IScribbleUser
+    memberships(cursor: CursorInput, filter: BoardMembershipFilter!): BoardMembershipConnection!
+    modLog(cursor: CursorInput, filter: ModLogFilter): ModLogConnection!
+    popularBoards(app: App): [Board!]!
+    searchUsers(query: String): [User]
+    user(uid: ID): User
+}
+
+type Socials {
+    deviantart: String
+    instagram: String
+    twitch: String
+    twitter: String
+    website: String
+}
+
+type User {
+    badges: [Badge]
+    bio: String
+    createdAt: Date!
+    displayName: String
+    galleryPosts(query: GalleryQuery): [GalleryPost!]!
+    imageUrl: String
+    karma: Int!
+    modLog(cursor: CursorInput, filter: ModLogFilter): ModLogConnection!
+    role: Role!
+    social: Socials
+    tier: Tier!
+    uid: ID!
+    userName: String
+}
+
+enum App {
+    hellopaint
+    malmal
+}
+
+enum Background {
+    CHECKERED_PATTERN
+    COLOR
+    GRID_PATTERN
+}
+
+enum BoardMode {
+    HYBRID
+    PRIVATE
+    PUBLIC
+}
+
+enum BoardType {
+    INFINITE
+    NORMAL
+    WHITEBOARD
+}
+
+enum CollaborationMode {
+    BIG_EVENT
+    COLLABORATIVE
+    LIMITED
+}
+
+enum GalleryOrder {
+    HOT
+    NEW
+    RANDOM
+    TOP
+}
+
+enum ModLogType {
+    ban
+    deleteLines
+    malmalReport
+    note
+    report
+    unban
+}
+
+enum Role {
+    admin
+    moderator
+    user
+}
+
+enum Tier {
+    malpal
+    pal
+    user
+}
+
+scalar Date
+
+scalar DateTime
+
+"A scalar that can represent any JSON Object value."
+scalar JSONObject
+
+input BoardMembershipFilter {
+    excludeRoles: [String!]
+    includeRoles: [String!]
+}
+
+input CreateBoardInput {
+    backgroundType: Background!
+    collaborationMode: CollaborationMode!
+    color: String
+    description: String!
+    inviteUserIds: [ID!]!
+    mode: BoardMode!
+    rules: [String!]
+    title: String!
+    type: BoardType!
+    url: String
+}
+
+input CreateCanvasInput {
+    canvasColor: String!
+    height: Int!
+    width: Int!
+}
+
+input CursorInput {
+    after: ID
+    before: ID
+    first: Int
+    last: Int
+}
+
+input EditBoardInput {
+    backgroundType: Background!
+    collaborationMode: CollaborationMode!
+    color: String
+    description: String!
+    mode: BoardMode!
+    rules: [String!]
+    title: String!
+}
+
+input GalleryHPPositionInput {
+    height: Float!
+    rotation: Float!
+    width: Float!
+    x: Float!
+    y: Float!
+    zoom: Float!
+}
+
+input GalleryPostInput {
+    app: App!
+    contributors: [String!]
+    description: String!
+    drawing: String!
+    hpPosition: GalleryHPPositionInput
+    socialMediaOk: Boolean
+    tags: [String!]!
+    title: String!
+}
+
+input GalleryQuery {
+    app: App
+    byIds: [ID!]
+    contest: String
+    drawing: ID
+    limit: Int
+    minDate: Date
+    offset: Int
+    order: GalleryOrder
+    search: String
+    seed: Float
+    socialMediaOk: Boolean
+    tag: String
+    user: ID
+}
+
+input IScribbleGalleryQuery {
+    category: Int
+    limit: Int
+    skip: Int
+    userId: Int
+}
+
+input ModLogFilter {
+    relatedUserId: ID
+    text: String
+    type: [ModLogType!]
+    userId: ID
+}
+
+input ModLogInput {
+    description: String
+    type: ModLogType!
+    url: String
+    userId: ID!
+}
+
+input PageQuery {
+    limit: Int!
+    page: Int!
+}
+
+input UpdateBoardMembershipInput {
+    roles: [String!]!
+}
